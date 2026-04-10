@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Vertax - AI-powered SaaS website builder for eCommerce, Gym, School, and 10+ industries. AI automation & intelligent chatbot integrated.">
+  <title>Vertax | AI SaaS Website Builder – eCommerce, Gym, School & More</title>
+  <!-- Tailwind CSS + Font Awesome + Google Fonts + AOS Library for scroll animations -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      scroll-behavior: smooth;
+      background: #fefefe;
+      overflow-x: hidden;
+    }
+    /* Custom gradient animations */
+    .bg-gradient-ani {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 2rem;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .glass-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 45px -15px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.96);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #7C3AED, #EC4899, #F97316, #3B82F6);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: textShimmer 5s ease infinite;
+    }
+    @keyframes textShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .btn-gradient {
+      background: linear-gradient(95deg, #7C3AED, #DB2777);
+      transition: all 0.3s;
+      box-shadow: 0 10px 20px -7px rgba(124,58,237,0.5);
+    }
+    .btn-gradient:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 35px -10px rgba(124,58,237,0.7);
+    }
+    .hover-lift {
+      transition: transform 0.3s ease, box-shadow 0.3s;
+    }
+    .hover-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -15px rgba(0,0,0,0.15);
+    }
+    /* Animated blob */
+    .blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(236,72,153,0.1) 100%);
+      border-radius: 62% 38% 72% 28% / 48% 32% 68% 52%;
+      filter: blur(60px);
+      z-index: 0;
+      animation: blobMove 20s infinite alternate;
+    }
+    @keyframes blobMove {
+      0% { transform: translate(0%, 0%) scale(1); border-radius: 62% 38% 72% 28% / 48% 32% 68% 52%;}
+      100% { transform: translate(20%, -15%) scale(1.2); border-radius: 34% 66% 36% 64% / 55% 41% 59% 45%;}
+    }
+    /* Chatbot panel */
+    .chat-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+    }
+    .chat-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 360px;
+      max-width: calc(100vw - 40px);
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1001;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .chat-header {
+      background: linear-gradient(105deg, #7C3AED, #C026D3);
+      padding: 1rem;
+      color: white;
+    }
+    .chat-messages {
+      height: 320px;
+      overflow-y: auto;
+      padding: 0.9rem;
+      background: #faf9fe;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .bot-msg, .user-msg {
+      max-width: 85%;
+      padding: 8px 14px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .bot-msg {
+      background: #ede9fe;
+      color: #2d2a3a;
+      align-self: flex-start;
+      border-bottom-left-radius: 6px;
+    }
+    .user-msg {
+      background: #7C3AED;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 6px;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #e9e9ef;
+      padding: 10px;
+      background: white;
+    }
+    /* custom scroll */
+    .chat-messages::-webkit-scrollbar { width: 5px; }
+    .chat-messages::-webkit-scrollbar-track { background: #f1f1f1; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #c084fc; border-radius: 10px; }
+    @media (max-width: 550px) {
+      .chat-panel { width: 300px; right: 16px; bottom: 85px; }
+    }
+    .infinite-slider {
+      animation: scroll 25s linear infinite;
+      display: flex;
+      gap: 2rem;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .img-hover-zoom {
+      transition: transform 0.4s ease;
+    }
+    .img-hover-zoom:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Background animated blobs -->
+  <div class="blob top-20 left-0"></div>
+  <div class="blob bottom-20 right-0" style="animation-delay: -5s; width: 450px; height: 450px;"></div>
+
+  <!-- ==================== HEADER / NAVBAR ==================== -->
+  <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60 shadow-sm">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-robot text-3xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse"></i>
+          <span class="text-2xl font-extrabold tracking-tight"><span class="text-gray-800">vertax</span><span class="gradient-text">.online</span></span>
+        </div>
+        <div class="hidden md:flex space-x-8 items-center font-medium text-gray-700">
+          <a href="#home" class="hover:text-purple-700 transition">Home</a>
+          <a href="#solutions" class="hover:text-purple-700 transition">Solutions</a>
+          <a href="#ai-automation" class="hover:text-purple-700 transition">AI Studio</a>
+          <a href="#showcase" class="hover:text-purple-700 transition">Showcase</a>
+          <a href="#pricing" class="hover:text-purple-700 transition">Pricing</a>
+          <a href="#contact" class="hover:text-purple-700 transition">Contact</a>
+          <a href="#" class="bg-purple-600 text-white px-5 py-2 rounded-full text-sm shadow-md hover:bg-purple-700 transition">Start Building</a>
+        </div>
+        <button id="menuToggle" class="md:hidden text-2xl text-gray-700 focus:outline-none"><i class="fas fa-bars"></i></button>
+      </div>
+      <div id="mobileMenu" class="md:hidden hidden flex-col pb-5 space-y-3 font-medium text-gray-700">
+        <a href="#home" class="block py-2 hover:text-purple-600">Home</a>
+        <a href="#solutions" class="block py-2 hover:text-purple-600">Solutions</a>
+        <a href="#ai-automation" class="block py-2 hover:text-purple-600">AI Studio</a>
+        <a href="#showcase" class="block py-2 hover:text-purple-600">Showcase</a>
+        <a href="#pricing" class="block py-2 hover:text-purple-600">Pricing</a>
+        <a href="#contact" class="block py-2 hover:text-purple-600">Contact</a>
+        <a href="#" class="inline-block text-center bg-purple-600 text-white px-4 py-2 rounded-full">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION (with image & animation) ==================== -->
+  <section id="home" class="relative overflow-hidden py-20 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="flex-1 text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
+          <span class="bg-purple-100 text-purple-800 px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-5"><i class="fas fa-magic mr-1"></i> AI-First SaaS Builder</span>
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight text-gray-800">Build <span class="gradient-text">eCommerce, Gym, School</span> & 10+ Sites with AI</h1>
+          <p class="text-gray-600 text-lg mt-6 max-w-2xl mx-auto lg:mx-0">Vertax delivers AI-driven website generation + smart chatbot. Launch stunning platforms in days, not months. Fully managed SaaS infrastructure.</p>
+          <div class="flex flex-wrap gap-4 mt-8 justify-center lg:justify-start">
+            <a href="#contact" class="btn-gradient text-white px-8 py-3 rounded-full font-semibold shadow-xl">🚀 Start Free Trial</a>
+            <a href="#ai-automation" class="border border-purple-300 text-purple-700 px-8 py-3 rounded-full font-semibold hover:bg-purple-50 transition">🤖 Watch AI Demo</a>
+          </div>
+          <div class="flex flex-wrap gap-5 justify-center lg:justify-start mt-8 text-sm text-gray-500">
+            <span><i class="fas fa-check-circle text-purple-500"></i> No-code AI builder</span>
+            <span><i class="fas fa-check-circle text-purple-500"></i> 15+ industry templates</span>
+            <span><i class="fas fa-check-circle text-purple-500"></i> AI Chatbot + Automation</span>
+          </div>
+        </div>
+        <div class="flex-1 flex justify-center" data-aos="fade-left" data-aos-duration="1000">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-2xl opacity-60"></div>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=500&fit=crop" alt="AI Dashboard" class="relative rounded-2xl shadow-2xl w-full max-w-md border-4 border-white img-hover-zoom">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATS SECTION (new attractive) ==================== -->
+  <section class="py-12 bg-gradient-to-r from-purple-50 via-pink-50 to-indigo-50">
+    <div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div><div class="text-4xl font-black text-purple-700">15+</div><div class="text-gray-600">Industry Solutions</div></div>
+      <div><div class="text-4xl font-black text-purple-700">500+</div><div class="text-gray-600">Websites Launched</div></div>
+      <div><div class="text-4xl font-black text-purple-700">98%</div><div class="text-gray-600">Client Satisfaction</div></div>
+      <div><div class="text-4xl font-black text-purple-700">24/7</div><div class="text-gray-600">AI Support</div></div>
+    </div>
+  </section>
+
+  <!-- ==================== 15+ SOLUTIONS GRID with image icons ==================== -->
+  <section id="solutions" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-gray-800">Complete <span class="gradient-text">SaaS Ecosystem</span> for Any Niche</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto mt-4">From eCommerce to Gym, School, and beyond — 15+ pre-built AI-powered SaaS solutions</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-store text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">eCommerce Suite</h3><p class="text-gray-500 text-sm mt-1">AI recos, smart cart + payments</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-dumbbell text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Gym Management</h3><p class="text-gray-500 text-sm mt-1">Membership, AI workout coach</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-school text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">School System</h3><p class="text-gray-500 text-sm mt-1">LMS, grading, AI tutor</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-utensils text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Restaurant SaaS</h3><p class="text-gray-500 text-sm mt-1">Online ordering, AI menu</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-heartbeat text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Healthcare Portal</h3><p class="text-gray-500 text-sm mt-1">Telemedicine + symptom AI</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-building text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Real Estate Hub</h3><p class="text-gray-500 text-sm mt-1">AI valuation & CRM</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-plane text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Travel Agency</h3><p class="text-gray-500 text-sm mt-1">AI itinerary generator</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-briefcase text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Corporate Portal</h3><p class="text-gray-500 text-sm mt-1">HR tools + AI assistant</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-hand-holding-heart text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Nonprofit CMS</h3><p class="text-gray-500 text-sm mt-1">Donations + AI matching</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-blog text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Blog Network</h3><p class="text-gray-500 text-sm mt-1">AI content writer & SEO</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-chalkboard-user text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">LMS Platform</h3><p class="text-gray-500 text-sm mt-1">Courses + AI quiz</p></div>
+        <div class="glass-card p-6 text-center hover-lift"><i class="fas fa-chart-line text-5xl text-purple-600 mb-3"></i><h3 class="text-xl font-bold">Analytics SaaS</h3><p class="text-gray-500 text-sm mt-1">AI forecasting</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AI AUTOMATION + CHATBOT PREVIEW with image ==================== -->
+  <section id="ai-automation" class="py-20 bg-gradient-to-b from-purple-50 to-indigo-50">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="text-center mb-12" data-aos="zoom-in"><h2 class="text-3xl md:text-5xl font-bold">🤖 <span class="gradient-text">AI Automation Studio</span> + Smart Chatbot</h2><p class="text-gray-700 max-w-2xl mx-auto mt-3">Let Vertax AI generate entire website modules, content, and deploy custom chatbots for your business.</p></div>
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-7 shadow-xl border border-white" data-aos="fade-right">
+          <i class="fas fa-microchip text-3xl text-purple-600 mb-2"></i>
+          <h3 class="text-2xl font-bold">✨ AI Website Generator Demo</h3>
+          <p class="text-gray-500 text-sm mb-4">Select industry & watch AI suggest automated features</p>
+          <label class="block font-medium text-gray-700">Choose your niche:</label>
+          <select id="aiIndustrySelect" class="mt-2 w-full p-3 border border-gray-300 rounded-xl focus:ring-purple-500">
+            <option value="ecommerce">🛒 eCommerce Store</option><option value="gym">💪 Gym & Fitness</option><option value="school">🏫 School / Academy</option><option value="restaurant">🍽️ Restaurant SaaS</option>
+          </select>
+          <div id="aiSuggestionBox" class="mt-5 p-4 rounded-2xl bg-purple-50 border border-purple-200"><p class="font-bold text-purple-800"><i class="fas fa-robot mr-1"></i> AI Automation Plan:</p><p id="aiSuggestionText" class="text-gray-700 mt-1">AI-powered product recommendations, smart cart, abandoned cart recovery.</p></div>
+        </div>
+        <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-7 shadow-xl border border-white" data-aos="fade-left">
+          <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=500&h=300&fit=crop" class="rounded-2xl mb-4 shadow-md" alt="AI Chatbot Interface">
+          <h3 class="text-2xl font-bold">💬 Intelligent AI Chatbot</h3>
+          <p class="text-gray-600 mt-2">Every Vertax website comes with a custom-trained AI assistant. Answers questions, captures leads, automates support — ready in minutes.</p>
+          <div class="mt-4 flex gap-3 text-purple-700"><i class="fas fa-comment-dots"></i> Try demo → bottom-right bubble</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SHOWCASE (Image gallery of mockups) ==================== -->
+  <section id="showcase" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="text-center mb-12" data-aos="fade-up"><h2 class="text-3xl md:text-5xl font-extrabold">Real <span class="gradient-text">SaaS Examples</span> Built with Vertax</h2><p class="text-gray-500 mt-2">Check out our AI-generated websites for different industries</p></div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="rounded-2xl overflow-hidden shadow-xl hover-lift"><img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&h=400&fit=crop" class="w-full h-56 object-cover"><div class="p-5 bg-white"><h3 class="font-bold text-xl">Fashion eCommerce</h3><p class="text-gray-500">AI recommendations + smart cart</p></div></div>
+        <div class="rounded-2xl overflow-hidden shadow-xl hover-lift"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop" class="w-full h-56 object-cover"><div class="p-5 bg-white"><h3 class="font-bold text-xl">Power Gym Studio</h3><p class="text-gray-500">Membership & AI workout planner</p></div></div>
+        <div class="rounded-2xl overflow-hidden shadow-xl hover-lift"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop" class="w-full h-56 object-cover"><div class="p-5 bg-white"><h3 class="font-bold text-xl">Smart School System</h3><p class="text-gray-500">LMS + AI grading assistant</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-5 text-center"><h2 class="text-3xl font-bold">Trusted by <span class="gradient-text">500+ founders</span></h2><div class="grid md:grid-cols-3 gap-8 mt-12"><div class="bg-white p-6 rounded-2xl shadow"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><p class="mt-3 italic">“Vertax AI built my eCommerce site in 2 days. The chatbot alone increased conversions by 30%.”</p><h4 class="font-bold mt-4">— Sarah J.</h4></div><div class="bg-white p-6 rounded-2xl shadow"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><p class="mt-3 italic">“Gym management SaaS never been easier. AI automation saved us 20h/week.”</p><h4 class="font-bold mt-4">— Mike T.</h4></div><div class="bg-white p-6 rounded-2xl shadow"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><p class="mt-3 italic">“School portal with AI tutor is revolutionary. Parents love it.”</p><h4 class="font-bold mt-4">— Dr. Emily R.</h4></div></div></div>
+  </section>
+
+  <!-- ==================== PRICING ==================== -->
+  <section id="pricing" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8"><div class="text-center mb-12"><h2 class="text-3xl md:text-4xl font-extrabold">Simple, <span class="gradient-text">AI-Powered</span> Plans</h2><p class="text-gray-500 mt-2">Scale with full automation & priority AI support</p></div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="rounded-2xl border p-7 shadow-md hover:shadow-xl transition"><h3 class="text-2xl font-bold">Starter</h3><p class="text-4xl font-black mt-3">$49<span class="text-base">/mo</span></p><ul class="mt-4 space-y-2"><li><i class="fas fa-check text-purple-500"></i> 1 SaaS website</li><li><i class="fas fa-check text-purple-500"></i> AI chatbot (basic)</li><li><i class="fas fa-check text-purple-500"></i> 5 industry templates</li></ul><button class="mt-6 w-full border border-purple-500 text-purple-600 py-2 rounded-full">Start Trial</button></div>
+        <div class="rounded-2xl border-2 border-purple-500 bg-purple-50 p-7 shadow-xl relative"><div class="absolute -top-3 left-6 bg-purple-600 text-white px-3 py-1 rounded-full text-sm">🔥 Most Popular</div><h3 class="text-2xl font-bold">Pro AI</h3><p class="text-4xl font-black mt-3">$99<span class="text-base">/mo</span></p><ul class="mt-4 space-y-2"><li><i class="fas fa-check text-purple-600"></i> Unlimited SaaS projects</li><li><i class="fas fa-check text-purple-600"></i> Advanced AI Automation</li><li><i class="fas fa-check text-purple-600"></i> Custom AI Chatbot training</li></ul><button class="mt-6 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-full">Get Pro AI</button></div>
+        <div class="rounded-2xl border p-7 shadow-md"><h3 class="text-2xl font-bold">Enterprise</h3><p class="text-3xl font-black mt-3">Custom</p><ul class="mt-4 space-y-2"><li><i class="fas fa-check text-purple-500"></i> White-label SaaS</li><li><i class="fas fa-check text-purple-500"></i> Dedicated AI cluster</li><li><i class="fas fa-check text-purple-500"></i> 24/7 support + SLA</li></ul><button class="mt-6 w-full border border-gray-300 py-2 rounded-full">Contact Sales</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT + FOOTER ==================== -->
+  <section id="contact" class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8"><div class="grid md:grid-cols-2 gap-12 items-start"><div data-aos="fade-right"><h2 class="text-3xl font-extrabold">Let’s Build Your <span class="gradient-text">AI-Driven Website</span></h2><p class="text-gray-600 mt-3">Get in touch for a personalized demo.</p><div class="mt-8 space-y-4"><div><i class="fas fa-envelope text-2xl text-purple-600 w-8"></i> <span class="font-mono">vertaxonline@gmail.com</span></div><div><i class="fas fa-phone-alt text-2xl text-purple-600 w-8"></i> <span class="font-mono">+1 6265 2074</span> <span class="text-xs">(62652074)</span></div><div><i class="fas fa-globe text-2xl text-purple-600 w-8"></i> vertax.online</div></div><div class="mt-6 flex gap-6 text-2xl text-gray-600"><a href="#" class="hover:text-purple-600"><i class="fab fa-youtube"></i></a><a href="#" class="hover:text-purple-600"><i class="fab fa-instagram"></i></a><a href="#" class="hover:text-purple-600"><i class="fab fa-linkedin"></i></a><a href="#" class="hover:text-purple-600"><i class="fab fa-github"></i></a><span class="text-sm ml-1">@vertaxonline</span></div></div>
+      <div class="bg-white rounded-2xl shadow-xl p-6" data-aos="fade-left"><h3 class="text-xl font-bold">Request a Quote</h3><form id="contactForm"><input type="text" placeholder="Full Name" class="w-full border rounded-xl p-3 mt-3" required><input type="email" placeholder="Email address" class="w-full border rounded-xl p-3 mt-3" required><textarea rows="3" placeholder="Tell us about your project (eCommerce, Gym, School...)" class="w-full border rounded-xl p-3 mt-3"></textarea><button type="submit" class="mt-4 w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-xl font-semibold">Send Message <i class="fas fa-paper-plane"></i></button></form></div></div></div>
+  </section>
+
+  <footer class="bg-gray-900 text-white py-10"><div class="max-w-7xl mx-auto px-5 flex flex-col md:flex-row justify-between items-center gap-4"><div class="flex gap-2"><i class="fas fa-robot text-purple-400"></i><span class="font-bold text-xl">vertax.online</span></div><div class="flex gap-6 text-sm"><a href="#" class="hover:text-white">Privacy</a><a href="#" class="hover:text-white">Terms</a></div><div class="text-gray-400 text-sm">© 2025 Vertax — eCommerce, Gym, School & 15+ Solutions.</div></div></footer>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div class="chat-float"><button id="chatToggleBtn" class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 rounded-full shadow-2xl hover:scale-105 transition-all"><i class="fas fa-comment-dots text-2xl"></i></button>
+    <div id="chatPanel" class="chat-panel hidden shadow-2xl"><div class="chat-header flex justify-between items-center"><span><i class="fas fa-robot mr-2"></i> Vertax AI Assistant</span><button id="closeChatBtn"><i class="fas fa-times"></i></button></div><div id="chatMessages" class="chat-messages"><div class="bot-msg">👋 Hi! I'm Vertax AI. Need an eCommerce, Gym or School website? Ask me about pricing, demos, or features!</div></div><div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask me..." class="flex-1 outline-none p-2"><button id="sendChatBtn" class="bg-purple-600 text-white px-4 py-2 rounded-full ml-2">Send</button></div></div></div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+    // Mobile menu
+    const menuToggle = document.getElementById('menuToggle'), mobileMenu = document.getElementById('mobileMenu');
+    if(menuToggle) menuToggle.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
+    // AI suggestion
+    const industrySelect = document.getElementById('aiIndustrySelect'), suggestionText = document.getElementById('aiSuggestionText');
+    const suggestions = { ecommerce: "AI product recommendations, smart cart, abandoned cart recovery & inventory AI.", gym: "Smart membership, AI workout planner, class booking bot & diet recommendation.", school: "AI grading assistant, parent-teacher chatbot, attendance automation & personalized learning.", restaurant: "AI menu optimizer, reservation automation, dynamic pricing & sentiment analysis." };
+    function updateSuggestion() { suggestionText.innerText = suggestions[industrySelect.value] || suggestions.ecommerce; }
+    industrySelect.addEventListener('change', updateSuggestion); updateSuggestion();
+    // Chatbot
+    const chatPanel = document.getElementById('chatPanel'), chatToggle = document.getElementById('chatToggleBtn'), closeChat = document.getElementById('closeChatBtn');
+    const chatMessages = document.getElementById('chatMessages'), chatInput = document.getElementById('chatInput'), sendBtn = document.getElementById('sendChatBtn');
+    function addMsg(text, isUser=false){ let div=document.createElement('div'); div.className=isUser?'user-msg':'bot-msg'; div.innerText=text; chatMessages.appendChild(div); chatMessages.scrollTop=chatMessages.scrollHeight; }
+    function botReply(msg){ let m=msg.toLowerCase(); if(m.includes('ecom')) return "eCommerce AI suite includes product recos, smart cart & payment gateways."; if(m.includes('gym')) return "Gym SaaS: member portal, AI workout plans & automated billing."; if(m.includes('school')) return "School system: LMS, AI grading, parent portal."; if(m.includes('pricing')) return "Starter $49/mo, Pro AI $99/mo (full automation). Want a custom quote?"; return "I can help with eCommerce, Gym, School, or any of our 15+ solutions. Ask about demo!"; }
+    function sendMessage(){ let msg=chatInput.value.trim(); if(!msg) return; addMsg(msg,true); chatInput.value=""; setTimeout(()=>{ addMsg(botReply(msg),false); },400); }
+    sendBtn.addEventListener('click',sendMessage); chatInput.addEventListener('keypress',e=>{if(e.key==='Enter')sendMessage();}); chatToggle.addEventListener('click',()=>chatPanel.classList.toggle('hidden')); closeChat.addEventListener('click',()=>chatPanel.classList.add('hidden'));
+    // Contact form
+    document.getElementById('contactForm')?.addEventListener('submit',(e)=>{e.preventDefault(); alert("Thank you! Vertax team will reach you soon to build your AI website."); e.target.reset();});
+    // smooth anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener('click',function(e){let target=document.querySelector(this.getAttribute('href')); if(target){e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); if(mobileMenu&&!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');}});});
+  </script>
+</body>
+</html>
